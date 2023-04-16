@@ -39,11 +39,10 @@ def updateScore():
     summer = 0
     while len(scores)+49 < len(string):
         a = np.array([addVariables(toBinary(string[len(scores):len(scores)+50]))])
+        print (a)
         value = loaded_model.predict(a)
         scores.append(value)
-    print (scores)
     return str((sum(scores)/len(scores))[0,0])
-
 
 @app.route('/')
 def index():
@@ -78,6 +77,7 @@ def tossten():
 
 @app.route('/clear')
 def clear():
+    global scores
     scores = []
     global string
     string = ""
