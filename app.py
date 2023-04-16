@@ -78,6 +78,7 @@ def tossten():
 
 @app.route('/clear')
 def clear():
+    scores = []
     global string
     string = ""
     return string
