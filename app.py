@@ -12,6 +12,9 @@ scores = []
 loaded_model = tf.keras.models.load_model('model')
 print (loaded_model.summary())
 
+def sigmoid(x):
+    return 1 / (1 + np.exp(-x))
+
 def addVariables(array):
     string_array = ''.join([str(x) for x in array])
     for i in itertools.product(*[('0', '1')] * 6): # considers all five-length strings
@@ -35,9 +38,10 @@ def updateScore():
         return "-1"
     summer = 0
     while len(scores)+49 < len(string):
-        a = np.array([addVariables(toBinary(string[-50:]))])
+        a = np.array([addVariables(toBinary(string[len(scores):len(scores)+50]))])
         value = loaded_model.predict(a)
-        scores.append(scipy.stats.norm(0, 1).cdf(value))
+        scores.append(value)
+    print (scores)
     return str((sum(scores)/len(scores))[0,0])
 
 
@@ -60,7 +64,7 @@ def append(word):
 @app.route('/toss')
 def toss():
     global string
-    result = random.choice(['1', '2'])
+    result = str(random.randint(1, 2))
     string += result
     return string
 
@@ -68,7 +72,7 @@ def toss():
 def tossten():
     global string
     for i in range(10):
-        result = random.choice(['1', '2'])
+        result = str(random.randint(1, 2))
         string += result
     return string
 
