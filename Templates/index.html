@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Coin Toss</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>Coin Toss</h1>
+    <p>Input a sequence of 1's and 2's, and try to make your sequence as random as possible for a high randomness score! If you want to test a truly random sequence, you can simulate tossing 2-sided 'dice' below.</p>
+    <div class='wrapper'>
+        <input type="text" id="input">
+        <button id="append-coins">Input</button>
+        <p id="valid"></p>
+    </div>
+    <div class='buttons'>
+    <button id="coin-toss">Toss Coin</button>
+    <button id="coin-tosses">Toss Ten</button>
+    <button id="clear">Clear</button>
+    </div>
+    <p id="result"></p>
+    <p id="score">Input 50 characters to get a score.</p>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(function() {
+            $('#coin-toss').click(function() {
+                $.get('/toss', function(result) {
+                    $('#result').text(result);
+                });
+                $.get('/updatescore', function(result) {
+                    if (result === "-1")
+                        $('#score').text("Input 50 characters to get a score.");
+                    else
+                        $('#score').text("Score: " + result);
+                });
+            });
+            $('#append-coins').click(function() {
+                var val1 = $("#input").val();
+                $.get('/append/'+val1, {val1: val1}, function(result) {
+                    // if val1 is negative 1, do not change the result
+                    if (result === "-1") {
+                        $('#valid').text("Invalid input. Please enter a sequence of 1's and 2's.");
+                    }
+                    else {
+                        $('#valid').text("");
+                        $('#result').text(result);
+                    }
+                });
+                $.get('/updatescore', function(result) {
+                    if (result === "-1")
+                        $('#score').text("Input 50 characters to get a score.");
+                    else
+                        $('#score').text("Score: " + result);
+                });
+            });
+            $('#coin-tosses').click(function() {
+                $.get('/coin-tosses', function(result) {
+                    $('#result').text(result);
+                });
+                $.get('/updatescore', function(result) {
+                    if (result === "-1")
+                        $('#score').text("Input 50 characters to get a score.");
+                    else
+                        $('#score').text("Score: " + result);
+                });
+            });
+            $('#clear').click(function() {
+                $.get('/clear', function(result) {
+                    $('#result').text(result);
+                });
+                $.get('/updatescore', function(result) {
+                    $('#score').text("Input 50 characters to get a score.");
+                });
+            });
+        });
+    </script>
+</body>
+</html>
+
