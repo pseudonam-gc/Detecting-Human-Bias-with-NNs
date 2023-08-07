@@ -1,4 +1,6 @@
-A brief proof-of-concept thrown together in the last few hours of an AI hackathon.
+**Detecting Human Bias With NNs**
+
+A brief proof-of-concept thrown together in the last few hours of an AI hackathon
 
 Can a series of random coinflips be distinguished from human faking attempts? The answer is yes; in fact, this problem has been explored many times in the past. As it turns out, humans have a very skewed perception of randomness. Common "tells" include:
 
